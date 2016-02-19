@@ -6,9 +6,8 @@ local function callback(extra, success, result)
 end
 
 local function run(msg, matches)
-  local user = 158990680
-
-  if matches[1] == "support" then
+  local user = 175623013
+  if matches[1] == "add abol" then
     user = 'user#id'..user
   end
 
@@ -26,7 +25,7 @@ end
 return {
   description = "support", 
   patterns = {
-    "^[!/](support)$"
+    "^[!/](add abol)$"
   }, 
   run = run 
 }
