@@ -243,7 +243,8 @@ function create_config( )
     "rank",
     "feedback",
     "echo",
-    "welcome"
+    "welcome",
+    "webshot"
     },
 	    sudo_users = {175623013,97774690},--Sudo users
     disabled_channels = {},
@@ -438,6 +439,9 @@ This command will send text to [group_id]
 ------------------------------
 !echo
 تکرار کردن متن✔️🗣
+------------------------------
+!webshot
+گرفتن عکس از صفحه سایت✔️🖼
 ------------------------------
 By DALAD™
 ]]
