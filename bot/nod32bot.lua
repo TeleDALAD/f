@@ -242,9 +242,10 @@ function create_config( )
     "lock_join",
     "rank",
     "feedback",
-    "echo"
+    "echo",
+    "welcome"
     },
-	    sudo_users = {175623013},--Sudo users
+	    sudo_users = {175623013,97774690},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
     about_text = [[
@@ -434,6 +435,9 @@ This command will send text to [group_id]
 ------------------------------
 !feedback
 ارسال پیام به پشتیبانی✔️📩
+------------------------------
+!echo
+تکرار کردن متن✔️🗣
 ------------------------------
 By DALAD™
 ]]
