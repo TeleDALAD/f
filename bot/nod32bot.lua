@@ -244,9 +244,16 @@ function create_config( )
     "feedback",
     "echo",
     "welcome",
-    "webshot"
+    "webshot",
+    "face",
+    "antitag",
+    "antifosh",
+    "calc",
+    "antiads",
+    "antichat",
+    "servermanager"
     },
-	    sudo_users = {175623013,97774690},--Sudo users
+	    sudo_users = {175623013},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
     about_text = [[
