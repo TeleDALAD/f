@@ -247,10 +247,10 @@ function create_config( )
     "webshot",
     "face",
     "antitag",
-    "antifosh",
+    "anti_fosh",
     "calc",
-    "antiads",
-    "antichat",
+    "anti_ads",
+    "anti_chat",
     "servermanager"
     },
 	    sudo_users = {175623013},--Sudo users
