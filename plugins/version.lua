@@ -1,8 +1,13 @@
 do
 
 function run(msg, matches)
-  return 'mahdiyeh v1'.. VERSION .. [[بات شخصی مهدیه
-ورژن یک]]
+  return 'Mr.DALAD v2.5'.. VERSION .. [[
+Mr.DALAD v2.5
+Channal: @iran_DALAD
+sudo: @Daltons_Admin_2
+برای خرید گروه به سودو مراجعه کنید
+اخرین اخبار ربات در کانال ما
+]]
 end
 
 return {
