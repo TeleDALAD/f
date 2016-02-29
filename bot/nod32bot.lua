@@ -240,7 +240,6 @@ function create_config( )
     "anti_bot",
     "info",
     "lock_join",
-    "rank",
     "feedback",
     "echo",
     "welcome",
