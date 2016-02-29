@@ -123,7 +123,7 @@ local function action_by_reply(extra, success, result)-- (reply) /info  function
   local um_hash = 'msgs:'..result.from.id..':'..result.to.id
   user_info_msgs = tonumber(redis:get(um_hash) or 0)
   text = text..'تعداد پیام های فرستاده شده : '..user_info_msgs..'\n\n'
-  text = text..'nod32 edited version'
+  text = text..'DALAD edited version'
   send_msg(extra.receiver, text, ok_cb, true)
 end
 
@@ -172,7 +172,7 @@ local function run(msg, matches)
 	  local value = redis:hget(hash, msg.from.id)
 	  if not value then
 		if msg.from.id == tonumber(SUDO) then
-		 text = text..'مقام : مدیر کل ربات (Executive Admin) \n\n'
+		 text = text..'مقام : مدیر کل ربات (sudo) \n\n'
 		elseif is_sudo(msg) then
 		 text = text..'مقام : ادمین ربات (Admin) \n\n'
 		elseif is_owner(msg) then
@@ -196,7 +196,7 @@ local function run(msg, matches)
 	 text = text..'نام گروه : '..msg.to.title..'\n'
      text = text..'ایدی گروه : '..msg.to.id
     end
-	text = text..'\n\nnod32 edited version'
+	text = text..'\n\nDALAD edited version'
     return send_msg(receiver, text, ok_cb, true)
     end
   end
