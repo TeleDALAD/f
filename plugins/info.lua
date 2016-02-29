@@ -104,7 +104,7 @@ local function action_by_reply(extra, success, result)-- (reply) /info  function
 		local value = redis:hget(hash, result.from.id)
 		 if not value then
 		    if result.from.id == tonumber(SUDO) then
-		       text = text..'مقام : مدیر کل ربات (Executive Admin) \n\n'
+		       text = text..'مقام : مدیر کل ربات (sudo) \n\n'
 		     elseif is_admin2(result.from.id) then
 		       text = text..'مقام : ادمین ربات (Admin) \n\n'
 		     elseif is_owner2(result.from.id, result.to.id) then
