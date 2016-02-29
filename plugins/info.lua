@@ -1,7 +1,7 @@
 
 
 do
-local SUDO = 175623013 --put your id here(BOT OWNER ID)
+local SUDO = 106164433 --put your id here(BOT OWNER ID)
 
 local function setrank(msg, name, value) -- setrank function
   local hash = nil
@@ -104,7 +104,7 @@ local function action_by_reply(extra, success, result)-- (reply) /info  function
 		local value = redis:hget(hash, result.from.id)
 		 if not value then
 		    if result.from.id == tonumber(SUDO) then
-		       text = text..'مقام : مدیر کل ربات (sudo) \n\n'
+		       text = text..'مقام : مدیر کل ربات (Executive Admin) \n\n'
 		     elseif is_admin2(result.from.id) then
 		       text = text..'مقام : ادمین ربات (Admin) \n\n'
 		     elseif is_owner2(result.from.id, result.to.id) then
@@ -172,7 +172,7 @@ local function run(msg, matches)
 	  local value = redis:hget(hash, msg.from.id)
 	  if not value then
 		if msg.from.id == tonumber(SUDO) then
-		 text = text..'مقام : مدیر کل ربات (sudo) \n\n'
+		 text = text..'مقام : مدیر کل ربات (Executive Admin) \n\n'
 		elseif is_sudo(msg) then
 		 text = text..'مقام : ادمین ربات (Admin) \n\n'
 		elseif is_owner(msg) then
