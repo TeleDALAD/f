@@ -1,23 +1,21 @@
-
-
-
-local function run(msg)
-    
+local function run(msg, matches)
+    if is_owner(msg) then
+        return
+    end
     local data = load_data(_config.moderation.data)
-    
-     if data[tostring(msg.to.id)]['settings']['antifosh'] == 'yes' then
-      
-    
-if not is_momod(msg) then
-    
-    
-chat_del_user('chat#id'..msg.to.id, 'user#id'..msg.from.id, ok_cb, true)
-    local msgads = 'ForbiddenAdText'
-   local receiver = msg.to.id
-    send_large_msg(به دلیل فحاشی سیکتیر شد.)
-	
-      end
-   end
+    if data[tostring(msg.to.id)] then
+        if data[tostring(msg.to.id)]['settings'] then
+            if data[tostring(msg.to.id)]['settings']['antifosh'] then
+                lock_fosh = data[tostring(msg.to.id)]['settings']['antifosh']
+            end
+        end
+    end
+    local chat = get_receiver(msg)
+    local user = "user#id"..msg.from.id
+    if lock_fosh == "yes" then
+        send_large_msg(chat, 'بدلیل فحاشی از گروه سیکتیر شدید')
+        chat_del_user(chat, user, ok_cb, true)
+    end
 end
     
 return {patterns = {
