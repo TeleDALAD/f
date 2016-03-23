@@ -309,43 +309,8 @@ local function unlock_group_bots(msg, data, target)
     return 'Bots protection has been disabled'
   end
 end
-local function lock_group_fosh(msg, data, target)
-if not is_momod(msg) then
-return "For moderators only!"
-end
-local group_fosh_lock = data[tostring(target)]['settings']['antifosh']
-if group_fosh_lock == 'yes' then
-return 'fosh word is already locked'
-else
-data[tostring(target)]['settings']['antifosh'] = 'yes'
-save_data(_config.moderation.data, data)
-return 'fosh word has been locked'
-end
-end
-local function unlock_group_fosh(msg, data, target)
-if not is_momod(msg) then
-return "For moderators only!"
-end
-local group_fosh_lock = data[tostring(target)]['settings']['antifosh']
-if group_fosh_lock == 'no' then
-return 'fosh word is already unlocked'
-else
-data[tostring(target)]['settings']['antifosh'] = 'no'
-save_data(_config.moderation.data, data)
-return 'fosh word has been unlocked'
-end
-end
-local function lock_group_join(msg, data, target)
-if not is_momod(msg) then
-return "For moderators only!"
-end
-local group_join_lock = data[tostring(target)]['settings']['lock_join']
-if group_join_lock == 'yes' then
-return ' joining with Link is already locked'
-else
-data[tostring(target)]['settings']['lock_join'] = 'yes'
-save_data(_config.moderation.data, data)
-return 'joining with Link has been locked'
+
+g with Link has been locked'
 end
 end
 local function unlock_group_join(msg, data, target)
