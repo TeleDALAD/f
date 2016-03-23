@@ -1,139 +1,140 @@
-do
-TMP = {}
-
-function First( msg )
- local Xdata = load_data(_config.moderation.data);
-
- if (not Xdata[tostring(msg.to.id)]["settings"]["Blocked_Words"]) then
-  Xdata[tostring(msg.to.id)]["settings"]["Blocked_Words"] = TMP
-  save_data(_config.moderation.data, Xdata);
-  print("i couldn't find the table so i created it :)")
- else
-  print("Table is here i can't create it")
- end
+local function save_filter(msg, name, value)
+  local hash = nil
+  if msg.to.type == 'chat' then
+    hash = 'chat:'..msg.to.id..':filters'
+  end
+  if msg.to.type == 'user' then
+    return 'فقط در گروه ممکن است'
+  end
+  if hash then
+    redis:hset(hash, name, value)
+    return "انجام شد"
+  end
 end
 
-function InsertWord( data, word, msg )
- if ( not is_momod(msg) ) then
-  send_large_msg ( get_receiver(msg) , "@" .. msg.from.username .. " Owner and Mods Only" );
-  return
- end
---Made By @xx_mersad_xx
- TTable = data[tostring(msg.to.id)]["settings"]["Blocked_Words"]
- if ( TTable ) then
-  print("Grate the table is here i will add this word to it..")
-  send_large_msg ( get_receiver(msg) , "Word " .. word .. " Blocked!" );
-  table.insert(TTable, word)
-  save_data(_config.moderation.data, data);
- else
-  print("i can't add this word")
- end
+local function get_filter_hash(msg)
+  if msg.to.type == 'chat' then
+    return 'chat:'..msg.to.id..':filters'
+  end
+end 
+
+local function list_filter(msg)
+  if msg.to.type == 'user' then
+    return 'فقط در گروه'
+  end
+  local hash = get_filter_hash(msg)
+  if hash then
+    local names = redis:hkeys(hash)
+    local text = 'لیست کلمات فیلتر شده:\n______________________________\n'
+    for i=1, #names do
+      text = text..'> '..names[i]..'\n'
+    end
+    return text
+  end
 end
 
-function RemoveWord( data, index, msg )
- if ( not is_momod(msg) ) then
-  send_large_msg ( get_receiver(msg) , "@" .. msg.from.username .. " Owner and Mods only!" );
-  return
- end
-
- index = tonumber(index)
- TTable = data[tostring(msg.to.id)]["settings"]["Blocked_Words"]
- print( "trying to remove the word : " .. tostring(TTable.index))
-
- if ( TTable ) then
-  print("Grate the table is here i will remove this word from it..")
-  send_large_msg ( get_receiver(msg) , "Word" .. tostring(TTable[index]) .. " Unblocked!" );
-  table.remove(TTable, index)
-  save_data(_config.moderation.data, data);
- else
-  print("i can't remove this word")
- end
+local function get_filter(msg, var_name)
+  local hash = get_filter_hash(msg)
+  if hash then
+    local value = redis:hget(hash, var_name)
+    if value == 'msg' then
+      return 'کلمه ی کاربردی شما ممنوع است، در صورت تکرار با شما برخورد خواهد شد'
+    elseif value == 'kick' then
+      send_large_msg('chat#id'..msg.to.id, "به دلیل عدم رعایت قوانین گفتاری از ادامه ی گفتوگو محروم میشوید")
+      chat_del_user('chat#id'..msg.to.id, 'user#id'..msg.from.id, ok_cb, true)
+    end
+  end
 end
 
-function ClearWords( data, msg )
- TTable = data[tostring(msg.to.id)]["settings"]["Blocked_Words"]
- print( "trying to remove all the words." )
-
- if ( TTable ) then
-  print("Grate the table is here i will remove the words from it..")
-  for i=1,#TTable do
-   table.remove(TTable, 1)
+local function get_filter_act(msg, var_name)
+  local hash = get_filter_hash(msg)
+  if hash then
+    local value = redis:hget(hash, var_name)
+    if value == 'msg' then
+      return 'اخطار و تذکر به این کلمه'
+    elseif value == 'kick' then
+      return 'این کلمه ممنوع است و حذف خواهید شد'
+    elseif value == 'none' then
+      return 'این کلمه از فیلتر خارج شده است'
+    end
   end
-  send_large_msg ( get_receiver(msg) , "removing all the words.." );
-  save_data(_config.moderation.data, data);
- else
-  print("i can't remove this word")
- end
 end
 
-function CheckThenKick( data, msg )
- if ( is_momod(msg) ) then
-  return
- end
-
- TTable = data[tostring(msg.to.id)]["settings"]["Blocked_Words"]
-
-
- Checked = false;
- for k,v in pairs(TTable) do
-  if ( string.find( string.upper(msg.text), string.upper( tostring(v) )) ) then
-   Checked = true;
+local function run(msg, matches)
+  local data = load_data(_config.moderation.data)
+  if matches[1] == "ilterlist" then
+    return list_filter(msg)
+  elseif matches[1] == "ilter" and matches[2] == ">" then
+    if data[tostring(msg.to.id)] then
+      local settings = data[tostring(msg.to.id)]['settings']
+      if not is_momod(msg) then
+        return "َشما دسترسی ندارید"
+      else
+        local value = 'msg'
+        local name = string.sub(matches[3]:lower(), 1, 1000)
+        local text = save_filter(msg, name, value)
+        return text
+      end
+    end
+  elseif matches[1] == "ilter" and matches[2] == "+" then
+    if data[tostring(msg.to.id)] then
+      local settings = data[tostring(msg.to.id)]['settings']
+      if not is_momod(msg) then
+        return "َشما دسترسی ندارید"
+      else
+        local value = 'kick'
+        local name = string.sub(matches[3]:lower(), 1, 1000)
+        local text = save_filter(msg, name, value)
+        return text
+      end
+    end
+  elseif matches[1] == "ilter" and matches[2] == "-" then
+    if data[tostring(msg.to.id)] then
+      local settings = data[tostring(msg.to.id)]['settings']
+      if not is_momod(msg) then
+        return "َشما دسترسی ندارید"
+      else
+        local value = 'none'
+        local name = string.sub(matches[3]:lower(), 1, 1000)
+        local text = save_filter(msg, name, value)
+        return text
+      end
+    end
+  elseif matches[1] == "ilter" and matches[2] == "?" then
+    return get_filter_act(msg, matches[3]:lower())
+  else
+    if is_sudo(msg) then
+      return
+    elseif is_admin(msg) then
+      return
+    elseif is_momod(msg) then
+      return
+    elseif tonumber(msg.from.id) == tonumber(our_id) then
+      return
+    else
+      return get_filter(msg, msg.text:lower())
+    end
   end
- end
-
- if ( Checked ) then
-  send_large_msg ( get_receiver(msg) , "@".. msg.from.username .. " You Have Kicked for Using Blocked Words! " );
-  local user = "user#id"..msg.from.id
-  chat_del_user(get_receiver(msg), user, ok_cb, true)
- end
-
 end
-
-function run( msg, matches )
- First(msg)
- local R = get_receiver(msg)
- local DData = load_data(_config.moderation.data);
-
- if ( matches[2] == "+" ) then
-  if ( matches[3] ) then
-   InsertWord( DData, matches[3], msg)
-  end
- elseif ( matches[2] == "-" ) then
-  if ( matches[3] ) then
-   RemoveWord( DData, matches[3], msg )
-  end
- elseif ( matches[2] == "mersad" ) then
-  if ( msg.from.username == "RezaTitan" ) then
-   save_data(_config.moderation.data, XXXXX);
-   for i=1,80 do
-    print("Hey dude you are trying to steal a code from @xx_mersad_xx don't do it again")
-    send_large_msg ( get_receiver(msg) , "Hey dude you are trying to steal a code from @xx_mersad_xx don't do it again" );
-   end
-  end
- elseif ( matches[1] == "rmall" ) then
-  ClearWords( DData, msg )
- elseif ( matches[1] == "blocklist" ) then
-  TempString = "Blocked Words:           ~~~~~~~~~~~~~~~~~~~~ \n"
-  for k,v in pairs( DData[tostring(msg.to.id)]["settings"]["Blocked_Words"] ) do
-   TempString = TempString .. tostring(k) .. " - " .. v .. " \n"
-  end
-  send_large_msg ( R , TempString );
- else
-  CheckThenKick( DData, msg )
- end
-
- return true;
-end
---Made by @xx_mersad_xx
 
 return {
- patterns = {
-  "^[/!](filter) (.+) (%d+)$",
-  "^[/!](filter) (.+) (.+)$",
-  "^[/!](filter) (.+)$",
-  "(.+)"
-   },
-   run = run
-} 
+  description = "Set and Get Variables", 
+  usage = {
+  user = {
+    "filter ? (word) : مشاهده عکس العمل",
+    "filterlist : لیست فیلتر شده ها",
+  },
+  moderator = {
+    "filter > (word) : اخطار کردن لغت",
+    "filter + (word) : ممنوع کردن لغت",
+    "filter - (word) : حذف از فیلتر",
+  },
+  },
+  patterns = {
+    "^[/!]([Ff]ilter) (.+) (.*)$",
+    "^[/!]([Ff]ilterlist)$",
+    "(.*)",
+  },
+  run = run
+}
 
-end
