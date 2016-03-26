@@ -253,7 +253,8 @@ function create_config( )
     "servermanager",
     "filter",
     "anti_link",
-    "anti_sticker"
+    "anti_sticker",
+    "msg_checks"
     },
 	    sudo_users = {175623013},--Sudo users
     disabled_channels = {},
