@@ -251,7 +251,9 @@ function create_config( )
     "anti_ads",
     "anti_chat",
     "servermanager",
-    "filter"
+    "filter",
+    "anti_link",
+    "anti_sticker"
     },
 	    sudo_users = {175623013},--Sudo users
     disabled_channels = {},
@@ -485,6 +487,7 @@ This command will send text to [group_id]
 ------------------------------
 !lock xy
 ممنوعیت ورود ایکس و ایگرگ✔🔤
+درنسخه بعدی
 ------------------------------
 !unlock link
  تبلیغات آزاد ✔💱
@@ -494,6 +497,7 @@ This command will send text to [group_id]
 ------------------------------
 !lock xy
  ورود ایکس و ایگرگ آزاد✔🔤
+درنسخه بعدی
 ------------------------------
 شما میتوانید از دو شکلک / و ! استفاده کنید.
 ------------------------------
@@ -503,6 +507,7 @@ This command will send text to [group_id]
 ------------------------------
 by DALAD™
 create bot @Dlt_admin_2
+And @shahinzk_m
 ]]
   }
   serialize_to_file(config, './data/config.lua')
