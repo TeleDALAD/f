@@ -254,6 +254,62 @@ local function get_description(msg, data)
   local about = string.gsub(msg.to.print_name, "_", " ")..':\n\n'..about
   return 'About '..about
 end
+
+local function lock_group_link(msg, data, target)
+if not is_momod(msg) then
+return "For moderators only!"
+end
+local group_link_lock = data[tostring(target)]['settings']['antilink']
+if group_link_lock == 'yes' then
+return 'link is already locked'
+else
+data[tostring(target)]['settings']['antilink'] = 'yes'
+save_data(_config.moderation.data, data)
+return 'link has been locked'
+end
+end
+local function unlock_group_link(msg, data, target)
+if not is_momod(msg) then
+return "For moderators only!"
+end
+local group_link_lock = data[tostring(target)]['settings']['antilink']
+if group_link_lock == 'no' then
+return 'link is already unlocked'
+else
+data[tostring(target)]['settings']['antilink'] = 'no'
+save_data(_config.moderation.data, data)
+return 'link has been unlocked'
+end
+end
+
+local function lock_group_sticker(msg, data, target)
+  if not is_momod(msg) then
+    return "For moderators only!"
+  end
+  local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
+  if group_sticker_lock == 'yes' then
+    return 'sticker is already locked'
+  else
+    data[tostring(target)]['settings']['lock_sticker'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'sticker has been locked'
+  end
+end
+
+local function unlock_group_sticker(msg, data, target)
+  if not is_momod(msg) then
+    return "For moderators only!"
+  end
+  local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
+  if group_sticker_lock == 'no' then
+    return 'sticker is already unlocked'
+  else
+    data[tostring(target)]['settings']['lock_chat'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'sticker has been unlocked'
+  end
+end
+
 local function lock_group_chat(msg, data, target)
   if not is_momod(msg) then
     return "For moderators only!"
