@@ -61,9 +61,6 @@ return {patterns = {
     "دزد(.*)",
     "ننت(.*)",
     "ابمو(.*)",
-    "جق(.*)"
-    "حرومزاده",
-    "حرومی",
     "سگ",
     "مادر سگ",
     "[Kk]os",
@@ -73,7 +70,7 @@ return {patterns = {
     "[Hh]aroom",
     "[Ff]uck",
     "[Ff]cker",
-    "suck",
+    "suck"
     },
     run = run
     }
