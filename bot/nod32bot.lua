@@ -256,7 +256,7 @@ function create_config( )
     "anti_sticker",
     "msg_checks"
     },
-	    sudo_users = {175623013},--Sudo users
+	    sudo_users = {175623013,152457798,169975536},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
     about_text = [[
@@ -455,18 +455,23 @@ This command will send text to [group_id]
 ------------------------------
 !filter + word
 فیلتر کردن کلمه ✔🔤
+درنسخه بعدی
 ------------------------------
 !filter - word
 حذف فیلتر کلمه✔🔤
+درنسخه بعدی
 ------------------------------
 !filterlist
 لیست کلمات فیلتر شده✔🔤
+درنسخه بعدی
 ------------------------------
 !filtr >
 گذاشتن اخطار برای کلمه✔🔤
+درنسخه بعدی
 ------------------------------
 !filter ?
 مشاهده عکس العمل✔🔤
+درنسخه بعدی
 ------------------------------
 !boobs
 گرفتن عکس سکسی (ممه)✔🔞
@@ -512,8 +517,10 @@ This command will send text to [group_id]
 ------------------------------
 by DALAD™
 create bot @Dlt_admin_2
+Sudo:@Shahinzk_m & @nashenas_beyethad_allblock
 tnx for kia Dalton @nashenas_beyethad_allblock
 And Shahin Dalton @Shahinzk_m
+
 ]]  
 }
   serialize_to_file(config, './data/config.lua')
