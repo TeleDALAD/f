@@ -14,15 +14,13 @@ local function check_member_autorealm(cb_extra, success, result)
         settings = {
           set_name = string.gsub(msg.to.print_name, '_', ' '),
           lock_join = 'no',
-          antifosh = 'no',
-	  antiads = 'no',
-          antilink = 'no',
-	  lock_name = 'no',
+          antifosh = 'yes',
+	  antiads = 'yes',
+	  lock_name = 'yes',
           lock_photo = 'no',
           lock_member = 'no',
           lock_chat = 'no',
-          lock_stickers = 'no',
-          flood = 'no'          
+          flood = 'yes'
         }
       }
       save_data(_config.moderation.data, data)
@@ -50,15 +48,13 @@ local function check_member_realm_add(cb_extra, success, result)
         settings = {
           set_name = string.gsub(msg.to.print_name, '_', ' '),
           lock_join = 'no',
-          antifosh = 'no',
-	  antiads = 'no',
-          antilink = 'no',
-	  lock_name = 'no',
+		  antifosh = 'yes',
+		  antiads = 'yes',
+		  lock_name = 'yes',
           lock_photo = 'no',
           lock_member = 'no',
           lock_chat = 'no',
-          lock_stickers = 'no',
-          flood = 'no'
+          flood = 'yes'
         }
       }
       save_data(_config.moderation.data, data)
@@ -88,16 +84,14 @@ function check_member_group(cb_extra, success, result)
         settings = {
           set_name = string.gsub(msg.to.print_name, '_', ' '),
           lock_join = 'no',
-          antifosh = 'no',
-	  antiads = 'no',
-          antilink = 'no',
-	  lock_name = 'no',
+		  antifosh = 'yes',
+		  antiads = 'yes',
+		  lock_name = 'yes',
           lock_photo = 'no',
           lock_member = 'no',
           lock_chat = 'no',
-          lock_stickers = 'no',
-          flood = 'no'
-}
+          flood = 'yes',
+        }
       }
       save_data(_config.moderation.data, data)
       local groups = 'groups'
@@ -126,15 +120,13 @@ local function check_member_modadd(cb_extra, success, result)
         settings = {
           set_name = string.gsub(msg.to.print_name, '_', ' '),
           lock_join = 'no',
-          antifosh = 'no',
-	  antiads = 'no',
-          antilink = 'no',
-	  lock_name = 'no',
+		  antifosh = 'yes',
+		  antiads = 'yes',
+		  lock_name = 'yes',
           lock_photo = 'no',
           lock_member = 'no',
           lock_chat = 'no',
-          lock_stickers = 'no',
-          flood = 'no'
+          flood = 'yes',
         }
       }
       save_data(_config.moderation.data, data)
@@ -228,11 +220,7 @@ local function show_group_settingsmod(msg, data, target)
     	leave_ban = data[tostring(msg.to.id)]['settings']['leave_ban']
    	end
   local settings = data[tostring(target)]['settings']
-  local text = "›Group Settings:\n•••Kick new member with link : "..settings.lock_join.."\n•••Lock group Fosh : "..settings.antifosh.."\n•••Lock group chat : 
-"..settings.antilink.."\n•••lock group link :
-"..settings.lock_chat.."\n•••Lock group ads : "..settings.antiads.."\n•••Lock group name : "..settings.lock_name.."\n•••Lock group photo : "..settings.lock_photo.."\n•••kick new member : "..settings.lock_member.."\n•••Lock leave ban :
-"..settings.lock_sticker.."\n•••lock group sticker :
-"..leave_ban.."\n•••flood set on : "..NUM_MSG_MAX.."\n•••Bot can come : "..bots_protection.."                                        ›»DALAD People Version 3 (◉_◉)"
+  local text = "›Group Settings:\n•••Kick new member with link : "..settings.lock_join.."\n•••Lock group Fosh : "..settings.antifosh.."\n•••Lock group chat : "..settings.lock_chat.."\n•••Lock group ads : "..settings.antiads.."\n•••Lock group name : "..settings.lock_name.."\n•••Lock group photo : "..settings.lock_photo.."\n•••kick new member : "..settings.lock_member.."\n•••Lock leave ban : "..leave_ban.."\n•••flood set on : "..NUM_MSG_MAX.."\n•••Bot can come : "..bots_protection.."                                        ›»Nod32 People Version 7.8 (◉_◉)"
   return text
 end
 
@@ -254,62 +242,6 @@ local function get_description(msg, data)
   local about = string.gsub(msg.to.print_name, "_", " ")..':\n\n'..about
   return 'About '..about
 end
-
-local function lock_group_link(msg, data, target)
-if not is_momod(msg) then
-return "For moderators only!"
-end
-local group_link_lock = data[tostring(target)]['settings']['antilink']
-if group_link_lock == 'yes' then
-return 'link is already locked'
-else
-data[tostring(target)]['settings']['antilink'] = 'yes'
-save_data(_config.moderation.data, data)
-return 'link has been locked'
-end
-end
-local function unlock_group_link(msg, data, target)
-if not is_momod(msg) then
-return "For moderators only!"
-end
-local group_link_lock = data[tostring(target)]['settings']['antilink']
-if group_link_lock == 'no' then
-return 'link is already unlocked'
-else
-data[tostring(target)]['settings']['antilink'] = 'no'
-save_data(_config.moderation.data, data)
-return 'link has been unlocked'
-end
-end
-
-local function lock_group_sticker(msg, data, target)
-  if not is_momod(msg) then
-    return "For moderators only!"
-  end
-  local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
-  if group_sticker_lock == 'yes' then
-    return 'sticker is already locked'
-  else
-    data[tostring(target)]['settings']['lock_sticker'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'sticker has been locked'
-  end
-end
-
-local function unlock_group_sticker(msg, data, target)
-  if not is_momod(msg) then
-    return "For moderators only!"
-  end
-  local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
-  if group_sticker_lock == 'no' then
-    return 'sticker is already unlocked'
-  else
-    data[tostring(target)]['settings']['lock_chat'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'sticker has been unlocked'
-  end
-end
-
 local function lock_group_chat(msg, data, target)
   if not is_momod(msg) then
     return "For moderators only!"
