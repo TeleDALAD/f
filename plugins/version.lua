@@ -5,7 +5,8 @@ function run(msg, matches)
 Mr.DALAD v2.5
 Channal: @iran_DALAD
 sudo: @Daltons_Admin_2
-برای خرید گروه به سودو مراجعه کنید
+Sudo(Helper):@nashenas_beyethad_allblock & @Shahinzk_m
+برای خرید گروه به سودو و سودوهای کمکی مراجعه کنید
 اخرین اخبار ربات در کانال ما
 ]]
 end
